@@ -26,7 +26,7 @@ public class Medical_Rec_HisController {
         return new ResponseEntity<>(newMed, HttpStatus.CREATED);
     }
 
-    //localhost:8080/api-HMS/medicalRecHis/getMedRecByPatientId/{id}
+    //localhost:8080/api-HMS/medicalRecHis/getMedRecByPatientId/{patientId}
     @GetMapping("/getMedRecByPatientId/{patientId}")
     public ResponseEntity<List<Medical_Record_HistoryDto>> getMedRecHis(@PathVariable long patientId){
         List<Medical_Record_HistoryDto> listRecords = medService.getRecordsById(patientId);
