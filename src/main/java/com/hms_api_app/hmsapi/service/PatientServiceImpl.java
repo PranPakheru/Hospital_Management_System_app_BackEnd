@@ -2,6 +2,7 @@ package com.hms_api_app.hmsapi.service;
 
 import com.hms_api_app.hmsapi.dto.PatientDto;
 import com.hms_api_app.hmsapi.entity.Patient;
+import com.hms_api_app.hmsapi.errorHandler.ResourceNotFoundException;
 import com.hms_api_app.hmsapi.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,25 +57,53 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public List<PatientDto> getOnePatientById(long id) {
-        Optional<Patient> byId = patientRepo.findById(id);
-        if(byId.isPresent()){
-            Patient patient = byId.get();
-            PatientDto patientDto = mapToDto(patient);
-            List<PatientDto> listDto = new ArrayList<>();
-            listDto.add(patientDto);
-            return listDto;
-        }
-        else{
-            return Collections.emptyList();
-        }
+//        Optional<Patient> byId = patientRepo.findById(id);
+//        if(byId.isPresent()){
+//            Patient patient = byId.get();
+//            PatientDto patientDto = mapToDto(patient);
+//            List<PatientDto> listDto = new ArrayList<>();
+//            listDto.add(patientDto);
+//            return listDto;
+//        }
+//        else{
+//            return Collections.emptyList();
+//        }
 
+        Patient patient = patientRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Pateint", "id", id));
+
+        PatientDto patientDto = mapToDto(patient);
+
+        List<PatientDto> listDto = new ArrayList<>();
+        listDto.add(patientDto);
+        return listDto;
     }
 
     @Override
     public List<PatientDto> updateThePatient(long id, PatientDto updatedPatient) {
-        Optional<Patient> byId = patientRepo.findById(id);
-        if(byId.isPresent()){
-            Patient patient = byId.get();
+//        Optional<Patient> byId = patientRepo.findById(id);
+//        if(byId.isPresent()){
+//            Patient patient = byId.get();
+//            patient.setAddress(updatedPatient.getAddress());
+//            patient.setEmail(updatedPatient.getEmail());
+//            patient.setFirstName(updatedPatient.getFirstName());
+//            patient.setLastName(updatedPatient.getLastName());
+//            patient.setMobileNumber(updatedPatient.getMobileNumber());
+//            patient.setDateOfBirth(updatedPatient.getDateOfBirth());
+//            patient.setId(id);
+//
+//            PatientDto updatedNewPatient = mapToDto(patientRepo.save(patient));
+//            List<PatientDto> listDto = new ArrayList<>();
+//            listDto.add(updatedNewPatient);
+//            return listDto;
+//        }
+//        else {
+//            return Collections.emptyList();
+//        }
+
+        Patient patient = patientRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException(
+                "Patient", "id", id));
+
             patient.setAddress(updatedPatient.getAddress());
             patient.setEmail(updatedPatient.getEmail());
             patient.setFirstName(updatedPatient.getFirstName());
@@ -82,26 +111,29 @@ public class PatientServiceImpl implements PatientService{
             patient.setMobileNumber(updatedPatient.getMobileNumber());
             patient.setDateOfBirth(updatedPatient.getDateOfBirth());
             patient.setId(id);
-
             PatientDto updatedNewPatient = mapToDto(patientRepo.save(patient));
+
             List<PatientDto> listDto = new ArrayList<>();
             listDto.add(updatedNewPatient);
             return listDto;
-        }
-        else {
-            return Collections.emptyList();
-        }
+
     }
 
     @Override
     public String deleteById(long id) {
-        if(patientRepo.findById(id).isPresent()){
-            patientRepo.deleteById(id);
-            return "Patient information deleted successfully.";
-        }
-        else{
-            return "Patient information is not present.";
-        }
+//        if(patientRepo.findById(id).isPresent()){
+//            patientRepo.deleteById(id);
+//            return "Patient information deleted successfully.";
+//        }
+//        else{
+//            return "Patient information is not present.";
+//        }
+
+        Patient patient = patientRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException(
+                "Pateint", "id", id
+        ));
+        patientRepo.deleteById(id);
+        return "Patient information deleted successfully.";
     }
 
 

@@ -2,6 +2,7 @@ package com.hms_api_app.hmsapi.service;
 
 import com.hms_api_app.hmsapi.dto.DoctorDto;
 import com.hms_api_app.hmsapi.entity.Doctor;
+import com.hms_api_app.hmsapi.errorHandler.ResourceNotFoundException;
 import com.hms_api_app.hmsapi.repository.DoctorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,18 +58,45 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Override
     public List<DoctorDto> getOneDoctor(long id) {
-        Optional<Doctor> byId = doctorRepo.findById(id);
+//        Optional<Doctor> byId = doctorRepo.findById(id);
+//        List<DoctorDto> listDoctor = new ArrayList<>();
+//        listDoctor.add(mapToDto(byId.get()));
+//        return listDoctor;
+
+        Doctor doctor = doctorRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Doctor", "id", id
+        ));
+
         List<DoctorDto> listDoctor = new ArrayList<>();
-        listDoctor.add(mapToDto(byId.get()));
+        listDoctor.add(mapToDto(doctor));
         return listDoctor;
     }
 
     @Override
     public List<DoctorDto> updateTheDoctor(long id, DoctorDto doctorDto) {
-        Optional<Doctor> byId = doctorRepo.findById(id);
+//        Optional<Doctor> byId = doctorRepo.findById(id);
+//
+//        if(byId.isPresent()){
+//            Doctor doctor = byId.get();
+//            doctor.setId(id);
+//            doctor.setDoctorName(doctorDto.getDoctorName());
+//            doctor.setDesignation(doctorDto.getDesignation());
+//            doctor.setEmail(doctorDto.getEmail());
+//            doctor.setMobileNumber(doctorDto.getMobileNumber());
+//            doctor.setDateOfBirth(doctorDto.getDateOfBirth());
+//            DoctorDto updatedDoctorDto = mapToDto(doctorRepo.save(doctor));
+//
+//            List<DoctorDto> newDoc = new ArrayList<>();
+//            newDoc.add(updatedDoctorDto);
+//            return newDoc;
+//        }
+//        else{
+//            return Collections.emptyList();
+//        }
 
-        if(byId.isPresent()){
-            Doctor doctor = byId.get();
+        Doctor doctor = doctorRepo.findById(id).orElseThrow(()->new ResourceNotFoundException(
+                "Doctor", "id", id
+        ));
             doctor.setId(id);
             doctor.setDoctorName(doctorDto.getDoctorName());
             doctor.setDesignation(doctorDto.getDesignation());
@@ -80,21 +108,24 @@ public class DoctorServiceImpl implements DoctorService{
             List<DoctorDto> newDoc = new ArrayList<>();
             newDoc.add(updatedDoctorDto);
             return newDoc;
-        }
-        else{
-            return Collections.emptyList();
-        }
+
 
     }
 
     @Override
     public String deleteTheDoctor(long id) {
-        if(doctorRepo.findById(id).isPresent()){
-            doctorRepo.deleteById(id);
-            return "Doctor data deleted successfullt.";
-        }
-        else {
-            return "Doctor data not found.";
-        }
+//        if(doctorRepo.findById(id).isPresent()){
+//            doctorRepo.deleteById(id);
+//            return "Doctor data deleted successfullt.";
+//        }
+//        else {
+//            return "Doctor data not found.";
+//        }
+
+        doctorRepo.findById(id).orElseThrow(()->new ResourceNotFoundException(
+                "Doctor", "id", id
+        ));
+        doctorRepo.deleteById(id);
+        return "Doctor data deleted successfully.";
     }
 }
