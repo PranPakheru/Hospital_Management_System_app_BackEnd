@@ -1,11 +1,16 @@
 package com.hms_api_app.hmsapi.service;
 
 import com.hms_api_app.hmsapi.dto.PatientDto;
+import com.hms_api_app.hmsapi.dto.PatientResponse;
 import com.hms_api_app.hmsapi.entity.Patient;
 import com.hms_api_app.hmsapi.errorHandler.ResourceNotFoundException;
 import com.hms_api_app.hmsapi.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,13 +52,14 @@ public class PatientServiceImpl implements PatientService{
         return convertedPatient;
     }
 
-    @Override
-    public List<PatientDto> getAllPatients() {
-        List<Patient> listPatient = patientRepo.findAll();
-        List<PatientDto> listPatientDto = listPatient.stream().map(this::mapToDto).collect(Collectors.toList());
-        return listPatientDto;
-
-    }
+    //this method is gone to bottom.
+//    @Override
+//    public List<PatientDto> getAllPatient() {
+//        List<Patient> listPatient = patientRepo.findAll();
+//        List<PatientDto> listPatientDto = listPatient.stream().map(this::mapToDto).collect(Collectors.toList());
+//        return listPatientDto;
+//
+//    }
 
     @Override
     public List<PatientDto> getOnePatientById(long id) {
@@ -134,6 +140,30 @@ public class PatientServiceImpl implements PatientService{
         ));
         patientRepo.deleteById(id);
         return "Patient information deleted successfully.";
+    }
+
+    @Override
+    public PatientResponse getAllPatients(int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Patient> all = patientRepo.findAll(pageable);
+        List<Patient> content = all.getContent();
+        List<PatientDto> collect = content.stream().map(patient -> mapToDto(patient)).collect(Collectors.toList());
+
+        PatientResponse patientRespo = new PatientResponse();
+
+        patientRespo.setListPatientResp(collect);
+        patientRespo.setPageNo(all.getNumber());
+        patientRespo.setPageSize(all.getSize());
+        patientRespo.setTotalPages(all.getTotalPages());
+        patientRespo.setTotalElements(all.getTotalElements());
+        patientRespo.setLastPage(all.isLast());
+
+        return patientRespo;
     }
 
 
