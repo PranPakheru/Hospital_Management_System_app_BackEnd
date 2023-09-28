@@ -3,6 +3,7 @@ package com.hms_api_app.hmsapi.controller;
 import com.hms_api_app.hmsapi.dto.BillDto;
 import com.hms_api_app.hmsapi.entity.Bill;
 import com.hms_api_app.hmsapi.service.BillService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class BillController {
     //CRUD methods for billing.
     //localhost:8080/api-HMS/bills/showBills
     @PostMapping("/showBills")
-    public ResponseEntity<List<BillDto>> createBill(@RequestBody BillDto billDto){
+    public ResponseEntity<List<BillDto>> createBill(@Valid @RequestBody BillDto billDto){
         List<BillDto> listBill = billService.createBillPatient(billDto);
         return new ResponseEntity<>(listBill, HttpStatus.CREATED);
     }

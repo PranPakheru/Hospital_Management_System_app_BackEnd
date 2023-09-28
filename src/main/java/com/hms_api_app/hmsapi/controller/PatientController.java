@@ -4,6 +4,7 @@ import com.hms_api_app.hmsapi.dto.PatientDto;
 import com.hms_api_app.hmsapi.dto.PatientResponse;
 import com.hms_api_app.hmsapi.service.PatientService;
 import com.hms_api_app.hmsapi.utils.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class PatientController {
     //all routing/mapping methods
     //localhost:8080/api-HMS/patient/registrationPage
     @PostMapping("/registrationPage")
-    public ResponseEntity<Object> createPatient(@RequestBody PatientDto patientDto){
+    public ResponseEntity<Object> createPatient(@Valid @RequestBody PatientDto patientDto){
         PatientDto savedPatientDto = patientService.createPatient(patientDto);
         return new ResponseEntity<Object>(savedPatientDto, HttpStatus.CREATED);
 
@@ -57,7 +58,7 @@ public class PatientController {
 
     //localhost:8080/api-HMS/patient/updatePatient/{id}
     @PutMapping("/updatePatient/{id}")
-    public ResponseEntity<List<PatientDto>> updatePatientById(@PathVariable long id, @RequestBody PatientDto updatedPatient){
+    public ResponseEntity<List<PatientDto>> updatePatientById(@Valid @PathVariable long id, @RequestBody PatientDto updatedPatient){
         List<PatientDto> getPatient = patientService.updateThePatient(id, updatedPatient);
         return new ResponseEntity<>(getPatient, HttpStatus.CREATED);
     }
