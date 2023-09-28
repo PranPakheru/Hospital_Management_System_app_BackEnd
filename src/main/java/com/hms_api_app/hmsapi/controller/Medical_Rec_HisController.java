@@ -2,6 +2,7 @@ package com.hms_api_app.hmsapi.controller;
 
 import com.hms_api_app.hmsapi.dto.Medical_Record_HistoryDto;
 import com.hms_api_app.hmsapi.service.MedicalRecHisService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class Medical_Rec_HisController {
     //Controlling CRUD methods.
     //localhost:8080/api-HMS/medicalRecHis/showMedicalRecHis
     @PostMapping("/showMedicalRecHis")
-    public ResponseEntity<List<Medical_Record_HistoryDto>> createMedical(@RequestBody Medical_Record_HistoryDto medDto){
+    public ResponseEntity<List<Medical_Record_HistoryDto>> createMedical(@Valid @RequestBody Medical_Record_HistoryDto medDto){
         List<Medical_Record_HistoryDto> newMed = medService.createMedRecHis(medDto);
         return new ResponseEntity<>(newMed, HttpStatus.CREATED);
     }

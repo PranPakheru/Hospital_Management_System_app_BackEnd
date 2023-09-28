@@ -2,6 +2,7 @@ package com.hms_api_app.hmsapi.controller;
 
 import com.hms_api_app.hmsapi.dto.AppointmentDto;
 import com.hms_api_app.hmsapi.service.AppointmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class AppointmentController {
     //Controller methods for CRUD.
     //localhost:8080/api-HMS/appointment/bookAppointment
     @PostMapping("/bookAppointment")
-    public ResponseEntity<List<AppointmentDto>> bookAnAppointment(@RequestBody AppointmentDto appointmentDto){
+    public ResponseEntity<List<AppointmentDto>> bookAnAppointment(@Valid @RequestBody AppointmentDto appointmentDto){
         List<AppointmentDto> bookedAppointment = appointmentService.saveAppointment(appointmentDto);
         return new ResponseEntity<>(bookedAppointment, HttpStatus.CREATED);
     }

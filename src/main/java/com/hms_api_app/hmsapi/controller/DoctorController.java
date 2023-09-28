@@ -2,6 +2,7 @@ package com.hms_api_app.hmsapi.controller;
 
 import com.hms_api_app.hmsapi.dto.DoctorDto;
 import com.hms_api_app.hmsapi.service.DoctorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class DoctorController {
     //all controller method for doctor CRUD.
     //localhost:8080/api-HMS/doctor/saveDoctor
     @PostMapping("/saveDoctor")
-    public ResponseEntity<List<DoctorDto>> createNewDoctor(@RequestBody DoctorDto doctorDto){
+    public ResponseEntity<List<DoctorDto>> createNewDoctor(@Valid @RequestBody DoctorDto doctorDto){
         List<DoctorDto> savedDoctorList = doctorService.createDoctor(doctorDto);
         return new ResponseEntity<>(savedDoctorList, HttpStatus.CREATED);
     }
@@ -42,7 +43,7 @@ public class DoctorController {
 
     //localhost:8080/api-HMS/doctor/updateDoctorData/{id}
     @PutMapping("/updateDoctorData/{id}")
-    public ResponseEntity<List<DoctorDto>> updateDoctorData(@PathVariable long id, @RequestBody DoctorDto doctorDto){
+    public ResponseEntity<List<DoctorDto>> updateDoctorData(@Valid @PathVariable long id, @RequestBody DoctorDto doctorDto){
         List<DoctorDto> updatedDoctor = doctorService.updateTheDoctor(id, doctorDto);
         return new ResponseEntity<>(updatedDoctor, HttpStatus.ACCEPTED);
     }
