@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PatientController {
 
     //all routing/mapping methods
     //localhost:8080/api-HMS/patient/registrationPage
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registrationPage")
     public ResponseEntity<Object> createPatient(@Valid @RequestBody PatientDto patientDto){
         PatientDto savedPatientDto = patientService.createPatient(patientDto);
@@ -57,6 +59,7 @@ public class PatientController {
     }
 
     //localhost:8080/api-HMS/patient/updatePatient/{id}
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updatePatient/{id}")
     public ResponseEntity<List<PatientDto>> updatePatientById(@Valid @PathVariable long id, @RequestBody PatientDto updatedPatient){
         List<PatientDto> getPatient = patientService.updateThePatient(id, updatedPatient);
