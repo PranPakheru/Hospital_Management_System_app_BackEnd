@@ -1,8 +1,5 @@
 package com.hms_api_app.hmsapi.dto;
-
-import com.hms_api_app.hmsapi.entity.Medical_Record_History;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

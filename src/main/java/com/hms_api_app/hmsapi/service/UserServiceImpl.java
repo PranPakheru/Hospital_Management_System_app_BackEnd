@@ -2,17 +2,13 @@ package com.hms_api_app.hmsapi.service;
 
 import com.hms_api_app.hmsapi.config.BeanConfig;
 import com.hms_api_app.hmsapi.dto.UserDto;
-import com.hms_api_app.hmsapi.entity.Role;
 import com.hms_api_app.hmsapi.entity.User;
-import com.hms_api_app.hmsapi.repository.RoleRepository;
 import com.hms_api_app.hmsapi.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -21,14 +17,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
     private BeanConfig beanConfig;
-
-    @Autowired
-    private RoleRepository roleRepo;
 
 
     //mapper methods dto-entity.
@@ -47,7 +38,7 @@ public class UserServiceImpl implements UserService{
     //other implementation methods.
     //registering the user
     @Override
-    public ResponseEntity<?> createUser(UserDto userDto) {
+    public ResponseEntity<String> createUser(UserDto userDto) {
         if(userRepo.existsByUserName(userDto.getUserName())){
             return new ResponseEntity<>("user already exists by- " +userDto.getUserName(), HttpStatus.BAD_REQUEST);
         }
@@ -61,8 +52,7 @@ public class UserServiceImpl implements UserService{
             user.setEmail(userDto.getEmail());
             user.setPassword(beanConfig.passwordEncoder().encode(userDto.getPassword()));
 
-            Role role = roleRepo.findByName("ROLE_ADMIN").get();
-            user.setRoles(Collections.singleton(role));
+            user.setRoles(userDto.getUserRole());
 
             userRepo.save(user);
 

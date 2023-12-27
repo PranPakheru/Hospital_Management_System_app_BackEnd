@@ -1,9 +1,11 @@
 package com.hms_api_app.hmsapi.service;
 
-import com.hms_api_app.hmsapi.dto.UserDto;
 import org.springframework.http.ResponseEntity;
+
+import com.hms_api_app.hmsapi.dto.UserDto;
+
 
 public interface UserService {
 
-    ResponseEntity<?> createUser(UserDto userDto);
+    ResponseEntity<String> createUser(UserDto userDto);
 }

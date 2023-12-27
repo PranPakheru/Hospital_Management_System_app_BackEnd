@@ -22,6 +22,7 @@ public class AppointmentController {
     //Controller methods for CRUD.
     //localhost:8080/api-HMS/appointment/bookAppointment
     @PostMapping("/bookAppointment")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<AppointmentDto>> bookAnAppointment(@Valid @RequestBody AppointmentDto appointmentDto){
         List<AppointmentDto> bookedAppointment = appointmentService.saveAppointment(appointmentDto);
         return new ResponseEntity<>(bookedAppointment, HttpStatus.CREATED);
@@ -29,6 +30,7 @@ public class AppointmentController {
 
     //localhost:8080/api-HMS/appointment/getAppointmentByPatientId/{patientId}
     @GetMapping("/getAppointmentByPatientId/{patientId}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<AppointmentDto>> getAppointment(@PathVariable long patientId){
         List<AppointmentDto> gotAppointment = appointmentService.getAppointmentByPatientId(patientId);
         return new ResponseEntity<>(gotAppointment, HttpStatus.FOUND);
@@ -36,6 +38,7 @@ public class AppointmentController {
 
     //localhost:8080/api-HMS/appointment/deleteById/{id}
     @DeleteMapping("/deleteById/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<String> deleteAppointment(@PathVariable long id){
         String msg = appointmentService.deleteAppointmentPatient(id);
         return new ResponseEntity<>(msg, HttpStatus.OK);

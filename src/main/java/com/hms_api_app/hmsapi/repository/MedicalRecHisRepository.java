@@ -1,6 +1,4 @@
 package com.hms_api_app.hmsapi.repository;
-
-import com.hms_api_app.hmsapi.dto.Medical_Record_HistoryDto;
 import com.hms_api_app.hmsapi.entity.Medical_Record_History;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +23,8 @@ public class PatientController {
 
     //all routing/mapping methods
     //localhost:8080/api-HMS/patient/registrationPage
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registrationPage")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<Object> createPatient(@Valid @RequestBody PatientDto patientDto){
         PatientDto savedPatientDto = patientService.createPatient(patientDto);
         return new ResponseEntity<Object>(savedPatientDto, HttpStatus.CREATED);
@@ -41,6 +40,7 @@ public class PatientController {
 
     //localhost:8080/api-HMS/patient/showPatientById/{id}
     @GetMapping("/showPatientById/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<PatientDto>> showPatientById(@PathVariable long id){
         List<PatientDto> onePatientById = patientService.getOnePatientById(id);
         return new ResponseEntity<>(onePatientById, HttpStatus.OK);
@@ -48,6 +48,7 @@ public class PatientController {
 
     //localhost:8080/api-HMS/patient/showAllPatients?pageNo=1&pageSize=10&sortBy=id&sortDir=asc
     @GetMapping("/showAllPatients")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<PatientResponse> getAllPatients(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -59,8 +60,8 @@ public class PatientController {
     }
 
     //localhost:8080/api-HMS/patient/updatePatient/{id}
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/updatePatient/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<PatientDto>> updatePatientById(@Valid @PathVariable long id, @RequestBody PatientDto updatedPatient){
         List<PatientDto> getPatient = patientService.updateThePatient(id, updatedPatient);
         return new ResponseEntity<>(getPatient, HttpStatus.CREATED);
@@ -68,6 +69,7 @@ public class PatientController {
 
     //localhost:8080/api-HMS/patient/deleteById/{id}
     @DeleteMapping("/deleteById/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<String> deletePatientById(@PathVariable long id){
         String msg = patientService.deleteById(id);
         return new ResponseEntity<>(msg, HttpStatus.OK);
