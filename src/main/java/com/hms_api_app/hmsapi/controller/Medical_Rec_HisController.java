@@ -22,6 +22,7 @@ public class Medical_Rec_HisController {
     //Controlling CRUD methods.
     //localhost:8080/api-HMS/medicalRecHis/showMedicalRecHis
     @PostMapping("/showMedicalRecHis")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<Medical_Record_HistoryDto>> createMedical(@Valid @RequestBody Medical_Record_HistoryDto medDto){
         List<Medical_Record_HistoryDto> newMed = medService.createMedRecHis(medDto);
         return new ResponseEntity<>(newMed, HttpStatus.CREATED);
@@ -29,6 +30,7 @@ public class Medical_Rec_HisController {
 
     //localhost:8080/api-HMS/medicalRecHis/getMedRecByPatientId/{patientId}
     @GetMapping("/getMedRecByPatientId/{patientId}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<Medical_Record_HistoryDto>> getMedRecHis(@PathVariable long patientId){
         List<Medical_Record_HistoryDto> listRecords = medService.getRecordsById(patientId);
         return new ResponseEntity<>(listRecords, HttpStatus.OK);
@@ -36,6 +38,7 @@ public class Medical_Rec_HisController {
 
     //localhost:8080/api-HMS/medicalRecHis/deleteMedRecHisById/{id}
     @DeleteMapping("/deleteMedRecHisById/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<String> deleteMedRedHis(@PathVariable long id){
         String msg = medService.deleteMedRecHisById(id);
         return new ResponseEntity<>(msg, HttpStatus.OK);

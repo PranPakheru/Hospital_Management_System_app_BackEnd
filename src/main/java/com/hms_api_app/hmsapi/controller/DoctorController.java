@@ -22,6 +22,7 @@ public class DoctorController {
     //all controller method for doctor CRUD.
     //localhost:8080/api-HMS/doctor/saveDoctor
     @PostMapping("/saveDoctor")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<DoctorDto>> createNewDoctor(@Valid @RequestBody DoctorDto doctorDto){
         List<DoctorDto> savedDoctorList = doctorService.createDoctor(doctorDto);
         return new ResponseEntity<>(savedDoctorList, HttpStatus.CREATED);
@@ -29,6 +30,7 @@ public class DoctorController {
 
     //localhost:8080/api-HMS/doctor/showAllDoctors
     @GetMapping("/showAllDoctors")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<DoctorDto>> showAllDoctors(){
         List<DoctorDto> allDoctors = doctorService.getAllDoctors();
         return new ResponseEntity<>(allDoctors, HttpStatus.FOUND);
@@ -36,6 +38,7 @@ public class DoctorController {
 
     //localhost:8080/api-HMS/doctor/showDoctorById/{id}
     @GetMapping("/showDoctorById/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<DoctorDto>> showDoctorById(@PathVariable long id){
         List<DoctorDto> oneDoctor = doctorService.getOneDoctor(id);
         return new ResponseEntity<>(oneDoctor, HttpStatus.FOUND);
@@ -43,6 +46,7 @@ public class DoctorController {
 
     //localhost:8080/api-HMS/doctor/updateDoctorData/{id}
     @PutMapping("/updateDoctorData/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<DoctorDto>> updateDoctorData(@Valid @PathVariable long id, @RequestBody DoctorDto doctorDto){
         List<DoctorDto> updatedDoctor = doctorService.updateTheDoctor(id, doctorDto);
         return new ResponseEntity<>(updatedDoctor, HttpStatus.ACCEPTED);
@@ -50,6 +54,7 @@ public class DoctorController {
 
     //localhost:8080/api-HMS/doctor/deleteById/{id}
     @DeleteMapping("/deleteById/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<String> deleteDoctor(@PathVariable long id){
         String msg = doctorService.deleteTheDoctor(id);
         return new ResponseEntity<>(msg, HttpStatus.OK);
